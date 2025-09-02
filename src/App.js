@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import ProductList from './components/ProductList';
 import DeveloperInfo from './components/DeveloperInfo';
 import Cart from './components/Cart';
+import ProductDetail from './components/ProductDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               </>
             } />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
           </Routes>
         </main>
       </div>
