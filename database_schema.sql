@@ -39,6 +39,14 @@ CREATE TABLE order_items (
   price numeric not null
 );
 
+-- Create the wishlist table
+CREATE TABLE wishlist (
+  user_id uuid references auth.users on delete cascade,
+  product_id bigint references products on delete cascade,
+  created_at timestamp with time zone default now(),
+  primary key (user_id, product_id)
+);
+
 -- Set up Row Level Security (RLS) for profiles table
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
@@ -75,3 +83,18 @@ CREATE POLICY "Users can view their own order items."
 CREATE POLICY "Users can insert their own order items."
   ON order_items FOR INSERT
   WITH CHECK (EXISTS (SELECT 1 FROM orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid()));
+
+-- Set up Row Level Security (RLS) for wishlist table
+ALTER TABLE wishlist ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own wishlist items."
+  ON wishlist FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own wishlist items."
+  ON wishlist FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own wishlist items."
+  ON wishlist FOR DELETE
+  USING (auth.uid() = user_id);
