@@ -17,18 +17,17 @@ const ProductList = () => {
       setLoading(true);
       setError(null);
 
-      // Fetch unique categories
-      const { data: categoriesData, error: categoriesError } = await supabase
+      // Fetch all products to extract unique categories
+      const { data: allProductsData, error: allProductsError } = await supabase
         .from('products')
-        .select('category')
-        .not('category', 'is', null)
-        .distinct('category');
+        .select('category');
 
-      if (categoriesError) {
-        console.error('Error fetching categories:', categoriesError);
-        setError(categoriesError.message);
+      if (allProductsError) {
+        console.error('Error fetching all products for categories:', allProductsError);
+        setError(allProductsError.message);
       } else {
-        setCategories(['all', ...categoriesData.map(cat => cat.category)]);
+        const uniqueCategories = [...new Set(allProductsData.map(p => p.category).filter(Boolean))];
+        setCategories(['all', ...uniqueCategories]);
       }
 
       let query = supabase.from('products').select('*');
