@@ -9,6 +9,7 @@ import ProductDetail from './components/ProductDetail';
 import Auth from './components/Auth';
 import Profile from './components/Profile';
 import OrderHistory from './components/OrderHistory';
+import Checkout from './components/Checkout';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </main>
       </div>
