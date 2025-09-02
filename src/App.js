@@ -7,6 +7,8 @@ import DeveloperInfo from './components/DeveloperInfo';
 import Cart from './components/Cart';
 import ProductDetail from './components/ProductDetail';
 import Auth from './components/Auth';
+import Profile from './components/Profile';
+import OrderHistory from './components/OrderHistory';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<OrderHistory />} />
           </Routes>
         </main>
       </div>
