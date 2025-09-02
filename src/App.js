@@ -10,7 +10,8 @@ import Auth from './components/Auth';
 import Profile from './components/Profile';
 import OrderHistory from './components/OrderHistory';
 import Checkout from './components/Checkout';
-import Wishlist from './components/Wishlist'; // Import Wishlist
+import Wishlist from './components/Wishlist';
+import Contact from './components/Contact'; // Import Contact
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
             <Route path="/profile" element={<div className="page-transition"><Profile /></div>} />
             <Route path="/orders" element={<div className="page-transition"><OrderHistory /></div>} />
             <Route path="/checkout" element={<div className="page-transition"><Checkout /></div>} />
-            <Route path="/wishlist" element={<div className="page-transition"><Wishlist /></div>} /> {/* New Wishlist Route */}
+            <Route path="/wishlist" element={<div className="page-transition"><Wishlist /></div>} />
+            <Route path="/contact" element={<div className="page-transition"><Contact /></div>} /> {/* New Contact Route */}
           </Routes>
         </main>
       </div>
