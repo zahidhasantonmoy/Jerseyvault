@@ -1,0 +1,50 @@
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 400px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1588869209602-93a6a1d4f3e8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+  color: var(--secondary-color);
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation: slide-in 1s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 24px;
+  margin-bottom: 30px;
+  animation: slide-in 1s ease-out 0.5s backwards;
+}
+
+.hero-button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  animation: slide-in 1s ease-out 1s backwards;
+}
+
+.hero-button:hover {
+  background-color: var(--secondary-color);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

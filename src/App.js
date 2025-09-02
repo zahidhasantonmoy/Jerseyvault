@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from './components/Header';
+import Hero from './components/Hero';
 
 function App() {
   return (
     <div>
       <Header />
       <main>
-        <h1>Welcome to Jerseyvault</h1>
+        <Hero />
       </main>
     </div>
   );
