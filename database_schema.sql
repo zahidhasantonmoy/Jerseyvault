@@ -7,7 +7,8 @@ CREATE TABLE products (
   image text,
   category text,
   sizes text[],
-  colors text[]
+  colors text[],
+  stock integer default 0
 );
 
 -- Create the profiles table
