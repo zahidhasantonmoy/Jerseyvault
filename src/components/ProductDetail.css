@@ -84,6 +84,14 @@
   font-weight: bold;
 }
 
+.product-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
 .add-to-cart-btn {
   background-color: var(--primary-color);
   color: var(--background-color);
@@ -103,4 +111,21 @@
 .add-to-cart-btn:disabled {
   background-color: #555;
   cursor: not-allowed;
+}
+
+.wishlist-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 30px; /* Larger icon */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.wishlist-btn:hover {
+  color: var(--primary-color);
+}
+
+.wishlist-btn.wishlisted {
+  color: red; /* Color when wishlisted */
 }

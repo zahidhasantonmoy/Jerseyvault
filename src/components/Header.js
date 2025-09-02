@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { useCart } from '../CartContext';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart } from 'react-icons/fa'; // Import FaHeart
 import { supabase } from '../supabaseClient';
 
 const Header = () => {
@@ -41,6 +41,7 @@ const Header = () => {
             <>
               <li><Link to="/profile">Profile</Link></li>
               <li><Link to="/orders">Orders</Link></li>
+              <li><Link to="/wishlist"><FaHeart /> Wishlist</Link></li> {/* Wishlist Link */}
               <li><button onClick={handleLogout} className="logout-button">Logout</button></li>
             </>
           ) : (

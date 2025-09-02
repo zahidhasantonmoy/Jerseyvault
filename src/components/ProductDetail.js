@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { useCart } from '../CartContext'; // Import useCart
+import { useCart } from '../CartContext';
+import { FaHeart } from 'react-icons/fa'; // Import FaHeart
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -9,7 +10,23 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addToCart } = useCart(); // Use useCart hook
+  const { addToCart } = useCart();
+  const [isWishlisted, setIsWishlisted] = useState(false); // New state for wishlist
+  const [session, setSession] = useState(null); // New state for session
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { 
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,6 +50,56 @@ const ProductDetail = () => {
 
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const checkWishlist = async () => {
+      if (session && product) {
+        const { data, error } = await supabase
+          .from('wishlist')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .eq('product_id', product.id);
+
+        if (error) {
+          console.error('Error checking wishlist:', error);
+        } else {
+          setIsWishlisted(data.length > 0);
+        }
+      }
+    };
+    checkWishlist();
+  }, [session, product]);
+
+  const handleWishlistToggle = async () => {
+    if (!session) {
+      alert('Please log in to add items to your wishlist.');
+      return;
+    }
+
+    if (isWishlisted) {
+      const { error } = await supabase
+        .from('wishlist')
+        .delete()
+        .eq('user_id', session.user.id)
+        .eq('product_id', product.id);
+
+      if (error) {
+        console.error('Error removing from wishlist:', error);
+      } else {
+        setIsWishlisted(false);
+      }
+    } else {
+      const { error } = await supabase
+        .from('wishlist')
+        .insert({ user_id: session.user.id, product_id: product.id });
+
+      if (error) {
+        console.error('Error adding to wishlist:', error);
+      } else {
+        setIsWishlisted(true);
+      }
+    }
+  };
 
   if (loading) {
     return <div className="product-detail-loading">Loading product...</div>;
@@ -84,13 +151,21 @@ const ProductDetail = () => {
           Stock: {isOutOfStock ? <span className="out-of-stock">Out of Stock</span> : product.stock}
         </p>
 
-        <button
-          className="add-to-cart-btn"
-          onClick={() => addToCart(product)}
-          disabled={isOutOfStock}
-        >
-          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-        </button>
+        <div className="product-actions">
+          <button
+            className="add-to-cart-btn"
+            onClick={() => addToCart(product)}
+            disabled={isOutOfStock}
+          >
+            {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+          </button>
+          <button
+            className={`wishlist-btn ${isWishlisted ? 'wishlisted' : ''}`}
+            onClick={handleWishlistToggle}
+          >
+            <FaHeart />
+          </button>
+        </div>
       </div>
     </div>
   );

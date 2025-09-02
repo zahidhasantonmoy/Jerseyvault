@@ -1,0 +1,31 @@
+.wishlist-container {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.wishlist-title {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.wishlist-loading,
+.wishlist-error,
+.wishlist-empty {
+  font-size: 18px;
+  color: #aaa;
+  margin-top: 20px;
+}
+
+.wishlist-error {
+  color: red;
+}
+
+.wishlist-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
