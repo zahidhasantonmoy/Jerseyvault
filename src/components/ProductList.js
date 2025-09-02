@@ -7,14 +7,36 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name'); // 'name', 'price_asc', 'price_desc'
+  const [selectedCategory, setSelectedCategory] = useState('all'); // New state for category filter
+  const [categories, setCategories] = useState([]); // New state for unique categories
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProductsAndCategories = async () => {
       setLoading(true);
       setError(null);
+
+      // Fetch unique categories
+      const { data: categoriesData, error: categoriesError } = await supabase
+        .from('products')
+        .select('category')
+        .not('category', 'is', null)
+        .distinct('category');
+
+      if (categoriesError) {
+        console.error('Error fetching categories:', categoriesError);
+        setError(categoriesError.message);
+      } else {
+        setCategories(['all', ...categoriesData.map(cat => cat.category)]);
+      }
+
       let query = supabase.from('products').select('*');
+
+      // Filter by category
+      if (selectedCategory !== 'all') {
+        query = query.eq('category', selectedCategory);
+      }
 
       // Search
       if (searchTerm) {
@@ -30,19 +52,19 @@ const ProductList = () => {
         query = query.order('price', { ascending: false });
       }
 
-      const { data, error } = await query;
+      const { data, error: productsError } = await query;
 
-      if (error) {
-        console.error('Error fetching products:', error);
-        setError(error.message);
+      if (productsError) {
+        console.error('Error fetching products:', productsError);
+        setError(productsError.message);
       } else {
         setProducts(data);
       }
       setLoading(false);
     };
 
-    fetchProducts();
-  }, [searchTerm, sortBy]);
+    fetchProductsAndCategories();
+  }, [searchTerm, sortBy, selectedCategory]);
 
   return (
     <div className="product-list-container">
@@ -56,6 +78,13 @@ const ProductList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
+        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="category-select">
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category === 'all' ? 'All Categories' : category}
+            </option>
+          ))}
+        </select>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="sort-select">
           <option value="name">Sort by Name</option>
           <option value="price_asc">Sort by Price (Low to High)</option>
