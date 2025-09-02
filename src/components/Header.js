@@ -1,7 +1,11 @@
 import React from 'react';
 import './Header.css';
+import { useCart } from '../CartContext';
+import { FaShoppingCart } from 'react-icons/fa';
 
 const Header = () => {
+  const { cart } = useCart();
+
   return (
     <header className="header">
       <div className="logo">
@@ -14,6 +18,10 @@ const Header = () => {
           <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
+      <div className="cart">
+        <FaShoppingCart />
+        <span className="cart-count">{cart.length}</span>
+      </div>
     </header>
   );
 };
