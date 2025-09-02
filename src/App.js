@@ -19,18 +19,18 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={
-              <>
+              <div className="page-transition">
                 <Hero />
                 <ProductList />
                 <DeveloperInfo />
-              </>
+              </div>
             } />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<OrderHistory />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/cart" element={<div className="page-transition"><Cart /></div>} />
+            <Route path="/product/:id" element={<div className="page-transition"><ProductDetail /></div>} />
+            <Route path="/auth" element={<div className="page-transition"><Auth /></div>} />
+            <Route path="/profile" element={<div className="page-transition"><Profile /></div>} />
+            <Route path="/orders" element={<div className="page-transition"><OrderHistory /></div>} />
+            <Route path="/checkout" element={<div className="page-transition"><Checkout /></div>} />
           </Routes>
         </main>
       </div>
