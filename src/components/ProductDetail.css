@@ -73,6 +73,17 @@
   border: 2px solid var(--secondary-color);
 }
 
+.product-stock {
+  font-size: 18px;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+.product-stock .out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+
 .add-to-cart-btn {
   background-color: var(--primary-color);
   color: var(--background-color);
@@ -87,4 +98,9 @@
 
 .add-to-cart-btn:hover {
   background-color: var(--secondary-color);
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useCart } from '../CartContext'; // Import useCart
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -8,6 +9,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart(); // Use useCart hook
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -44,6 +46,8 @@ const ProductDetail = () => {
     return <div className="product-detail-not-found">Product not found.</div>;
   }
 
+  const isOutOfStock = product.stock <= 0;
+
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
@@ -76,7 +80,17 @@ const ProductDetail = () => {
           </div>
         )}
 
-        <button className="add-to-cart-btn">Add to Cart</button>
+        <p className="product-stock">
+          Stock: {isOutOfStock ? <span className="out-of-stock">Out of Stock</span> : product.stock}
+        </p>
+
+        <button
+          className="add-to-cart-btn"
+          onClick={() => addToCart(product)}
+          disabled={isOutOfStock}
+        >
+          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+        </button>
       </div>
     </div>
   );

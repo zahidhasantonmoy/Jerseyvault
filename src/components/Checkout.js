@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './Checkout.css';
 
 const Checkout = () => {
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart(); // Destructure clearCart
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -20,12 +20,12 @@ const Checkout = () => {
   const totalAmount = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   useEffect(() => {
-    if (cart.length === 0) {
+    if (cart.length === 0 && !loading) { // Added !loading to prevent message during order placement
       setMessage('Your cart is empty. Please add items to proceed to checkout.');
       // Optionally redirect to home or product list
       // navigate('/');
     }
-  }, [cart, navigate]);
+  }, [cart, navigate, loading]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +41,7 @@ const Checkout = () => {
     setMessage('');
 
     try {
-      const { user } = supabase.auth.getSession();
+      const { user } = await supabase.auth.getSession(); // Use await here
 
       if (!user) {
         setMessage('You must be logged in to place an order.');
@@ -49,11 +49,28 @@ const Checkout = () => {
         return;
       }
 
-      // Create order
+      // 1. Check stock for each item in the cart
+      for (const item of cart) {
+        const { data: product, error: productError } = await supabase
+          .from('products')
+          .select('stock')
+          .eq('id', item.id)
+          .single();
+
+        if (productError) {
+          throw productError;
+        }
+
+        if (product.stock < item.quantity) {
+          throw new Error(`Insufficient stock for ${item.name}. Available: ${product.stock}`);
+        }
+      }
+
+      // 2. Create order
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
         .insert({
-          user_id: user.id,
+          user_id: user.user.id, // Access user.id from the session object
           total_amount: totalAmount,
           shipping_address: shippingAddress,
           status: 'pending',
@@ -65,13 +82,26 @@ const Checkout = () => {
         throw orderError;
       }
 
-      // Create order items
-      const orderItems = cart.map((item) => ({
-        order_id: orderData.id,
-        product_id: item.id,
-        quantity: item.quantity,
-        price: item.price,
-      }));
+      // 3. Create order items and decrement stock
+      const orderItems = [];
+      for (const item of cart) {
+        orderItems.push({
+          order_id: orderData.id,
+          product_id: item.id,
+          quantity: item.quantity,
+          price: item.price,
+        });
+
+        // Decrement stock
+        const { error: updateStockError } = await supabase
+          .from('products')
+          .update({ stock: item.stock - item.quantity }) // Assuming item.stock is current stock
+          .eq('id', item.id);
+
+        if (updateStockError) {
+          throw updateStockError;
+        }
+      }
 
       const { error: orderItemsError } = await supabase
         .from('order_items')
@@ -81,8 +111,8 @@ const Checkout = () => {
         throw orderItemsError;
       }
 
-      // Clear cart (this part needs to be implemented in CartContext)
-      // useCart().clearCart(); // Assuming a clearCart function exists
+      // 4. Clear cart
+      clearCart();
 
       setMessage('Order placed successfully!');
       // Redirect to order confirmation or history page
