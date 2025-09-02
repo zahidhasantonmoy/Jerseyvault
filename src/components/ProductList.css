@@ -11,9 +11,42 @@
   letter-spacing: 2px;
 }
 
+.product-controls {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.search-input,
+.sort-select {
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  background-color: #333;
+  color: var(--secondary-color);
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   justify-items: center;
+}
+
+.loading-message,
+.error-message,
+.no-products-message {
+  font-size: 18px;
+  color: #aaa;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: red;
 }
