@@ -23,7 +23,7 @@ const Auth = () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         setMessage('Logged in successfully!');
-      }c
+      }
     } catch (error) {
       setMessage(error.message);
     } finally {
