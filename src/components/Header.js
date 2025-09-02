@@ -17,6 +17,7 @@ const Header = () => {
           <li><Link to="/jerseys">Jerseys</Link></li>
           <li><Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/auth">Login/Signup</Link></li>
         </ul>
       </nav>
       <div className="cart">

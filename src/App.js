@@ -6,6 +6,7 @@ import ProductList from './components/ProductList';
 import DeveloperInfo from './components/DeveloperInfo';
 import Cart from './components/Cart';
 import ProductDetail from './components/ProductDetail';
+import Auth from './components/Auth';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             } />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/auth" element={<Auth />} />
           </Routes>
         </main>
       </div>
