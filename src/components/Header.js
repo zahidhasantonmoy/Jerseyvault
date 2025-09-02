@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import { useCart } from '../CartContext';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -9,18 +10,20 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">
-        <a href="/">Jerseyvault</a>
+        <Link to="/">Jerseyvault</Link>
       </div>
       <nav className="navigation">
         <ul>
-          <li><a href="/jerseys">Jerseys</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><Link to="/jerseys">Jerseys</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
         </ul>
       </nav>
       <div className="cart">
-        <FaShoppingCart />
-        <span className="cart-count">{cart.length}</span>
+        <Link to="/cart">
+          <FaShoppingCart />
+          <span className="cart-count">{cart.reduce((acc, item) => acc + item.quantity, 0)}</span>
+        </Link>
       </div>
     </header>
   );
