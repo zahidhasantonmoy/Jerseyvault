@@ -1,0 +1,31 @@
+🚀 Just completed my latest project: Jerseyvault - A Full-Featured E-Commerce Platform! 🛍️
+
+I'm excited to share my latest creation: Jerseyvault, a modern e-commerce website built with React.js and powered by Supabase backend-as-a-service. This project showcases my full-stack development skills and attention to detail in creating a seamless user experience.
+
+🔧 Key Features & Technologies:
+• Frontend: React.js with React Router for SPA navigation
+• Backend: Supabase (PostgreSQL, Authentication, Real-time APIs)
+• State Management: React Context API for cart functionality
+• Responsive UI: Custom CSS with mobile-first design
+• Key Features: Product search/sorting, user auth, cart/checkout, order history, wishlist, and product reviews
+
+💼 Business Functionality:
+• Complete shopping flow: Browse → Add to Cart → Checkout
+• User authentication and profile management
+• Order tracking and history
+• Wishlist functionality
+• Product reviews and ratings system
+• Inventory management with stock validation
+
+This project demonstrates my proficiency in:
+- Full-stack web development
+- RESTful API integration
+- Database design and management
+- User authentication and authorization
+- E-commerce business logic implementation
+- Modern React patterns and best practices
+
+🌐 Live Demo: https://jerseyvault.vercel.app/
+📂 GitHub Repo: https://github.com/zahidhasantonmoy/Jerseyvault
+
+#ReactJS #Supabase #WebDevelopment #Ecommerce #FullStack #JavaScript #Frontend #Backend #WebDesign #Programming #CodeNewbie #100DaysOfCode #Developer #SoftwareEngineer
